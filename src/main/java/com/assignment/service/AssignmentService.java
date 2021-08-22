@@ -1,7 +1,6 @@
 package com.assignment.service;
 
 import com.assignment.exception.AssignmentException;
-import com.assignment.exception.GlobalErrorCode;
 import com.assignment.model.AssignmentModel;
 import com.assignment.model.request.AssignmentRequest;
 import com.assignment.repository.AssignmentRepo;
@@ -23,8 +22,6 @@ public class AssignmentService {
 
     public AssignmentModel readAssignmentById(String id) throws AssignmentException {
         Optional<AssignmentModel> assignmentModel = assignmentRepo.findById(id);
-        Integer aa[]={1,2};
-        System.out.println(aa[2]);
         if (assignmentModel.isPresent()) {
             return assignmentModel.get();
         }
