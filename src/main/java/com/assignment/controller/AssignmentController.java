@@ -1,5 +1,6 @@
 package com.assignment.controller;
 
+import com.assignment.exception.AssignmentException;
 import com.assignment.model.AssignmentModel;
 import com.assignment.model.request.AssignmentRequest;
 import com.assignment.service.AssignmentService;
@@ -13,7 +14,7 @@ public class AssignmentController {
     private final AssignmentService assignmentService;
 
     @GetMapping("/assignment")
-    public ResponseEntity getAssignments(@RequestParam(required = false) String id) {
+    public ResponseEntity getAssignments(@RequestParam(required = false) String id) throws AssignmentException {
         if (id == null) {
             return ResponseEntity.ok(assignmentService.readAllAssignment());
         }
@@ -21,12 +22,12 @@ public class AssignmentController {
     }
 
     @GetMapping("/assignment/{id}")
-    public ResponseEntity<AssignmentModel> getAssignment(@PathVariable String id) {
+    public ResponseEntity<AssignmentModel> getAssignment(@PathVariable String id) throws AssignmentException {
         return ResponseEntity.ok(assignmentService.readAssignmentById(id));
     }
 
     @PostMapping("/assignment")
-    public ResponseEntity<AssignmentModel> createAssignment(@RequestBody AssignmentRequest request) {
+    public ResponseEntity<AssignmentModel> createAssignment(@RequestBody AssignmentRequest request) throws AssignmentException {
         return ResponseEntity.ok(assignmentService.createAssignment(request));
     }
 
@@ -37,7 +38,7 @@ public class AssignmentController {
     }
 
     @PatchMapping("/assignment/{id}")
-    public ResponseEntity<AssignmentModel> updateAssignment(@RequestBody AssignmentRequest request, @PathVariable String id) {
+    public ResponseEntity<AssignmentModel> updateAssignment(@RequestBody AssignmentRequest request, @PathVariable String id) throws AssignmentException {
         assignmentService.updateAssignment(id, request);
         return ResponseEntity.ok().build();
     }

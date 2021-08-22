@@ -21,15 +21,17 @@ public class AssignmentService {
         return assignmentRepo.findAll();
     }
 
-    public AssignmentModel readAssignmentById(String id) {
+    public AssignmentModel readAssignmentById(String id) throws AssignmentException {
         Optional<AssignmentModel> assignmentModel = assignmentRepo.findById(id);
+        Integer aa[]={1,2};
+        System.out.println(aa[2]);
         if (assignmentModel.isPresent()) {
             return assignmentModel.get();
         }
-        throw new AssignmentException("Assignment Not Found", GlobalErrorCode.ERROR_ENTITY_NOT_FOUND);
+        throw new AssignmentException("Assignment Not Found");
     }
 
-    public AssignmentModel createAssignment(AssignmentRequest assignmentRequest) {
+    public AssignmentModel createAssignment(AssignmentRequest assignmentRequest) throws AssignmentException {
         validateEmail(assignmentRequest.getEmail());
         AssignmentModel assignmentModel = new AssignmentModel();
         BeanUtils.copyProperties(assignmentRequest, assignmentModel);
@@ -40,11 +42,11 @@ public class AssignmentService {
         assignmentRepo.deleteById(id);
     }
 
-    public AssignmentModel updateAssignment(String id, AssignmentRequest request) {
+    public AssignmentModel updateAssignment(String id, AssignmentRequest request) throws AssignmentException {
         validateEmail(request.getEmail());
         Optional<AssignmentModel> assignmentModel = assignmentRepo.findById(id);
         if (!assignmentModel.isPresent()) {
-            throw new AssignmentException("Assignment not present in the database", GlobalErrorCode.ERROR_ENTITY_NOT_FOUND);
+            throw new AssignmentException("Assignment not present in the database");
         }
         AssignmentModel temp = assignmentModel.get();
         if (request.getAge() != null) {
@@ -66,13 +68,13 @@ public class AssignmentService {
         this.assignmentRepo = assignmentRepo;
     }
 
-    private void validateEmail(String email) {
+    private void validateEmail(String email) throws AssignmentException {
         if (email != null && !email.isEmpty()) {
             String regex = "^(.+)@(.+)$";
             Pattern pattern = Pattern.compile(regex);
             Matcher matcher = pattern.matcher(email);
             if (!matcher.matches()) {
-                throw new AssignmentException("Email Id not valid", GlobalErrorCode.ERROR_EMAIL_NOT_VALID);
+                throw new AssignmentException("Email Id not valid");
             }
         }
     }

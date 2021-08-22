@@ -1,12 +1,12 @@
 package com.assignment.exception;
 
-public class AssignmentException extends AssignmentGlobalException {
+public class AssignmentException extends Exception {
 
-    public AssignmentException(){
-        super("Entity Not Found", GlobalErrorCode.ERROR_ENTITY_NOT_FOUND);
+    public AssignmentException() {
+        super("Internal server Error");
     }
 
-    public AssignmentException(String message, Long code) {
-        super(message, code);
+    public AssignmentException(String message) {
+        super(message);
     }
 }
